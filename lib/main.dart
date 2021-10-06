@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'app_widget.dart';
+import 'components/app_widget.dart';
 
-main(List<String> args) {
-  runApp(AppWidget());
+main() {
+  runApp(const AppWidget());
 }
