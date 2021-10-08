@@ -1,45 +1,42 @@
 import 'package:flutter/material.dart';
 
-class CustomInputText extends StatefulWidget {
-  final String? labelText;
-  final TextInputType tipoInput;
+class CustomInputText extends StatelessWidget {
+  final TextInputType type;
+  final String labelText;
   final IconData icon;
-  final String value;
+  final TextEditingController txtController;
+  final bool showPassword;
+  final Widget? sufixIcon;
 
-  const CustomInputText(
-      {Key? key,
-      this.labelText,
-      required this.tipoInput,
-      required this.icon,
-      required this.value})
-      : super(key: key);
-
-  @override
-  _CustomInputTextState createState() => _CustomInputTextState();
-}
-
-class _CustomInputTextState extends State<CustomInputText> {
-  _CustomInputTextState();
+  const CustomInputText({
+    Key? key,
+    this.type = TextInputType.text,
+    required this.labelText,
+    required this.icon,
+    required this.txtController,
+    required this.showPassword,
+    required this.sufixIcon,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: (text) {
-        //widget.value = text;
-      },
-      keyboardType: widget.tipoInput,
-      decoration: const InputDecoration(
-        contentPadding: EdgeInsets.all(20.0),
-        labelText: "Email",
-        border: OutlineInputBorder(
+      obscureText: showPassword,
+      controller: txtController,
+      keyboardType: type,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.all(20.0),
+        labelText: labelText,
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(50),
           ),
         ),
         prefixIcon: Icon(
-          Icons.email_rounded,
+          icon,
           color: Colors.purple,
         ),
+        suffixIcon: sufixIcon,
       ),
     );
   }
