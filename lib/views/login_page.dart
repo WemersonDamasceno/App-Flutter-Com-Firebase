@@ -24,6 +24,12 @@ class _LoginPageState extends State<LoginPage> {
     senhaController.addListener(validarSenha);
   }
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    senhaController.dispose();
+  }
+
   validarSenha() {
     setState(() {
       senha = senhaController.text;
@@ -75,16 +81,16 @@ class _LoginPageState extends State<LoginPage> {
                   width: 400,
                   child: CustomInputText(
                     labelText: "Senha",
-                    icon: Icons.lock_outline_rounded,
+                    icon: Icons.vpn_key_outlined,
                     txtController: senhaController,
-                    showPassword: true,
+                    showPassword: !showPassword,
                     sufixIcon: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: IconButton(
                           icon: showPassword
-                              ? Icon(Icons.remove_red_eye,
+                              ? Icon(Icons.lock_open,
                                   size: 30, color: Colors.black.withOpacity(.4))
-                              : Icon(Icons.remove_red_eye_outlined,
+                              : Icon(Icons.lock_outline,
                                   size: 30,
                                   color: Colors.black.withOpacity(.4)),
                           onPressed: () {
@@ -139,10 +145,18 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
-                const Text("Ainda não tem conta? Crie sua conta aqui!",
-                    textAlign: TextAlign.end),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Não tem conta?"),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text("Crie a sua aqui!"),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

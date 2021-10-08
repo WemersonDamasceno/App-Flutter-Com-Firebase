@@ -20,7 +20,7 @@ class CustomInputText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       obscureText: showPassword,
       controller: txtController,
       keyboardType: type,
