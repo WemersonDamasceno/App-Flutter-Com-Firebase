@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1047742155300:android:43ee215e019c6b27c366b1",
+        "mobilesdk_app_id": "1:1047742155300:android:efd22f1ece087affc366b1",
         "android_client_info": {
           "package_name": "com.example.novo_projeto"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1047742155300-smmb218e99jfde6ld81ve4rn3ql199c2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.novo_projeto",
+            "certificate_hash": "53f979ad5a426b0d9de3c2dae2e3e8a9a9e36b84"
+          }
+        },
         {
           "client_id": "1047742155300-jr9n71sp3vdbpu28q6kv1ito631ki7o5.apps.googleusercontent.com",
           "client_type": 3

@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:novo_projeto/components/custom_buttom_round.dart';
 import 'package:novo_projeto/components/custom_input_text.dart';
+import 'package:novo_projeto/services/login_service.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -26,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
+    super.dispose();
     emailController.dispose();
     senhaController.dispose();
   }
@@ -46,6 +50,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    //Servico de login do firebase
+    final authService = Provider.of<LoginService>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
@@ -110,8 +117,9 @@ class _LoginPageState extends State<LoginPage> {
                       'Login',
                       style: TextStyle(fontSize: 20),
                     ),
-                    onPressed: () => {
-                      Navigator.of(context).pushNamed("/home"),
+                    onPressed: () async {
+                      await authService.singInWithEmailAndPassword(
+                          emailController.text, senhaController.text);
                     },
                     style: ElevatedButton.styleFrom(
                         primary: Colors.purple,
