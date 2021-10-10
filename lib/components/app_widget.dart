@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:novo_projeto/helpers/wrapper.dart';
 import 'package:novo_projeto/services/login_service.dart';
 import 'package:novo_projeto/views/login_page.dart';
+import 'package:novo_projeto/views/register_page.dart';
+import 'package:novo_projeto/views/splash_page.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/app_controller.dart';
@@ -31,9 +33,10 @@ class AppWidget extends StatelessWidget {
             ),
             initialRoute: '/',
             routes: {
-              '/': (context) => const Wrapper(),
+              '/': (context) => const SplashPage(),
               '/login': (context) => const LoginPage(),
               '/home': (context) => const Homepage(),
+              //'/register': (context) => const RegisterPage(),
             },
           ),
         );

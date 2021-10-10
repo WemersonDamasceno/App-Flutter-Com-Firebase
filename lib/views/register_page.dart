@@ -9,6 +9,19 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authService = Provider.of<LoginService>(context);
 
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Criar conta"),
+      ),
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Column(
+          children: const [
+            Text("Crie sua conta"),
+          ],
+        ),
+      ),
+    );
   }
 }

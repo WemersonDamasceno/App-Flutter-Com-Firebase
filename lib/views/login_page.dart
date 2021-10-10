@@ -160,7 +160,9 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const Text("Não tem conta?"),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        //Navigator.popAndPushNamed(context, "/register");
+                      },
                       child: const Text("Crie a sua aqui!"),
                     ),
                   ],
