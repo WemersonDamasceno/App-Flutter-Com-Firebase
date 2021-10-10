@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:novo_projeto/helpers/wrapper.dart';
 import 'package:novo_projeto/services/login_service.dart';
 import 'package:novo_projeto/views/login_page.dart';
-import 'package:novo_projeto/wrapper.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/app_controller.dart';

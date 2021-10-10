@@ -13,15 +13,15 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pokédex"),
-        actions: const [CustomSwitcher()],
+        title: Text("Flutter - CRUD"),
+        actions: [CustomSwitcher()],
       ),
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [],
+          children: const [Text("Pagina inicial")],
         ),
       ),
     );
