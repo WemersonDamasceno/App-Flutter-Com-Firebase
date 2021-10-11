@@ -121,8 +121,19 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(fontSize: 20),
                         ),
                         onPressed: () async {
+                          AlertDialog alertDialog = const AlertDialog(
+                            title: Text("Aguarde um momento!"),
+                            elevation: 2.0,
+                            content: LinearProgressIndicator(),
+                          );
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return alertDialog;
+                              });
                           await authService.singInWithEmailAndPassword(
                               emailController.text, senhaController.text);
+                          Navigator.popAndPushNamed(context, "/home");
                         },
                         style: ElevatedButton.styleFrom(
                             primary: Colors.purple,
