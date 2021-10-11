@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomButtomRound extends StatelessWidget {
   final String iconData;
-  final GestureTapCallback press;
+  final GestureTapCallback? press;
 
   const CustomButtomRound(
       {Key? key, required this.iconData, required this.press})

@@ -5,6 +5,7 @@ import 'package:novo_projeto/views/login_page.dart';
 import 'package:novo_projeto/views/register_page.dart';
 import 'package:novo_projeto/views/splash_page.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../controllers/app_controller.dart';
 import '../views/home_page.dart';
@@ -24,6 +25,13 @@ class AppWidget extends StatelessWidget {
             ),
           ],
           child: MaterialApp(
+            localizationsDelegates: const [
+              GlobalWidgetsLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale("pt", "BR"),
+            ],
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.purple,
@@ -36,7 +44,8 @@ class AppWidget extends StatelessWidget {
               '/': (context) => const SplashPage(),
               '/login': (context) => const LoginPage(),
               '/home': (context) => const Homepage(),
-              //'/register': (context) => const RegisterPage(),
+              '/register': (context) => const RegisterPage(),
+              '/wrapper': (context) => const Wrapper(),
             },
           ),
         );

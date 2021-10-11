@@ -1,6 +1,7 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:novo_projeto/helpers/wrapper.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -10,25 +11,18 @@ class SplashPage extends StatefulWidget {
 }
 
 class VideoState extends State<SplashPage> with SingleTickerProviderStateMixin {
-  var _visible = true;
-
   startTime() async {
     var _duration = const Duration(seconds: 2);
     return Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => Wrapper()));
+    Navigator.popAndPushNamed(context, "/wrapper");
   }
 
   @override
   void initState() {
     super.initState();
-
-    setState(() {
-      _visible = !_visible;
-    });
     startTime();
   }
 
