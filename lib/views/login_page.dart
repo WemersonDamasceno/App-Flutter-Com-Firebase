@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:novo_projeto/components/custom_buttom_round.dart';
 import 'package:novo_projeto/components/custom_input_text.dart';
 import 'package:novo_projeto/services/login_service.dart';
+import 'package:novo_projeto/views/home_page.dart';
 import 'package:novo_projeto/views/register_page.dart';
 import 'package:provider/provider.dart';
 
@@ -133,7 +134,13 @@ class _LoginPageState extends State<LoginPage> {
                               });
                           await authService.singInWithEmailAndPassword(
                               emailController.text, senhaController.text);
-                          Navigator.popAndPushNamed(context, "/home");
+                          Navigator.pushAndRemoveUntil<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    const Homepage()),
+                            ModalRoute.withName('/home'),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                             primary: Colors.purple,

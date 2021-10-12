@@ -18,7 +18,7 @@ class _HomepageState extends State<Homepage> {
       appBar: AppBar(
         title: const Text("Flutter - CRUD"),
         actions: [
-          const CustomSwitcher(),
+          CustomSwitcher(),
           IconButton(
               onPressed: () async {
                 await authService.singOut();

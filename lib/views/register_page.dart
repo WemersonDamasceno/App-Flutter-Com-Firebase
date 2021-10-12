@@ -149,17 +149,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     onPressed: () async {
                       //VERIFICAR SE OS CAMPOS ESTÃO PREENCHIDOS
                       //SE SIM ARROXA O NÓ
-
                       AlertDialog alertDialog = const AlertDialog(
                         title: Text("Aguarde um momento!"),
                         elevation: 2.0,
                         content: LinearProgressIndicator(),
                       );
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return alertDialog;
-                          });
+                      alertDialog.build(context);
                       await authService.createUserWithEmailAndPassword(
                           emailController.text, senhaController.text);
                       Navigator.popAndPushNamed(context, "/home");
