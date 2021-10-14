@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class CustomInputText extends StatelessWidget {
   final TextInputType type;
   final String labelText;
-  final IconData icon;
-  final TextEditingController txtController;
+  final IconData? icon;
+  final TextEditingController? txtController;
   final bool showPassword;
   final Widget? sufixIcon;
   final GestureTapCallback? onPressIcon;

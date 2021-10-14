@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:novo_projeto/components/custom_card_item_anime.dart';
+import 'package:novo_projeto/components/custom_input_text.dart';
 import 'package:novo_projeto/components/custom_switcher.dart';
 import 'package:novo_projeto/models/anime_model.dart';
 import 'package:novo_projeto/services/login_service.dart';
@@ -89,7 +90,7 @@ class _HomepageState extends State<Homepage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => abrirDialogAddAnime(context),
           child: const Icon(Icons.add),
           backgroundColor: Colors.purple),
     );
@@ -140,6 +141,66 @@ class _HomepageState extends State<Homepage> {
         "http://manchanocel.com/wp-content/uploads/2021/06/Tokyo-Revengers-1.jpg",
         9.0,
       ),
+    );
+  }
+
+  abrirDialogAddAnime(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Cancelar"),
+      onPressed: () {},
+    );
+
+    Widget cancelButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {},
+    );
+
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: const Text("Preencha os campos"),
+      content: const Text("Não perca a promoção."),
+      actions: [
+        okButton,
+        cancelButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            height: 300,
+            child: Padding(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CustomInputText(
+                      labelText: "Nome",
+                      icon: null,
+                      txtController: null,
+                      showPassword: false,
+                      sufixIcon: null),
+                  SizedBox(
+                    width: 320.0,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        "Save",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

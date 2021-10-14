@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:novo_projeto/components/custom_buttom_round.dart';
@@ -184,30 +185,25 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20,
                     ),
                     RichText(
-                        text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: const [
-                          TextSpan(text: "É novo por aqui?"),
+                      text: TextSpan(
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 15),
+                        children: [
+                          const TextSpan(text: "É novo por aqui?"),
                           TextSpan(
-                            text: " clique aqui!",
-                            style: TextStyle(
+                            text: " Clique aqui!",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterPage())),
+                            style: const TextStyle(
                               color: Colors.purple,
                               fontWeight: FontWeight.bold,
                             ),
                           )
-                        ])),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("É novo por aqui?"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const RegisterPage()));
-                          },
-                          child: const Text("Crie a sua aqui!"),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -218,4 +214,9 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+goRegister(BuildContext context) {
+  Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => const RegisterPage()));
 }
