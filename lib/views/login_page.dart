@@ -183,6 +183,19 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 20,
                     ),
+                    RichText(
+                        text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: const [
+                          TextSpan(text: "É novo por aqui?"),
+                          TextSpan(
+                            text: " clique aqui!",
+                            style: TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ])),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

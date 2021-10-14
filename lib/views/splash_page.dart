@@ -35,8 +35,8 @@ class VideoState extends State<SplashPage> with SingleTickerProviderStateMixin {
         height: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
+          children: const [
+            SizedBox(
               height: 200,
               width: 300,
               child: CircleAvatar(
@@ -44,7 +44,7 @@ class VideoState extends State<SplashPage> with SingleTickerProviderStateMixin {
                 backgroundImage: AssetImage("assets/images/logo.jpg"),
               ),
             ),
-            const CircularProgressIndicator(),
+            CircularProgressIndicator(),
           ],
         ),
       ),
