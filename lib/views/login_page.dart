@@ -63,10 +63,16 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                SizedBox(
-                  height: 250,
+                const SizedBox(
+                  height: 200,
                   width: 300,
-                  child: Image.asset("assets/images/logo.png"),
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage("assets/images/logo.jpg"),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 Column(
                   children: [
@@ -180,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Não tem conta?"),
+                        const Text("É novo por aqui?"),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
