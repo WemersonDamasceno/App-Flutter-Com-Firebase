@@ -25,9 +25,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-
-    emailController.addListener(validarEmail);
-    senhaController.addListener(validarSenha);
   }
 
   @override
@@ -35,20 +32,6 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
     emailController.dispose();
     senhaController.dispose();
-  }
-
-  validarSenha() {
-    setState(() {
-      senha = senhaController.text;
-    });
-    //validar senha
-  }
-
-  validarEmail() {
-    setState(() {
-      email = emailController.text;
-    });
-    //TODO Validar email
   }
 
   @override
@@ -139,6 +122,8 @@ class _LoginPageState extends State<LoginPage> {
                               builder: (BuildContext context) {
                                 return alertDialog;
                               });
+
+                          //Usar o auth
                           await authService.singInWithEmailAndPassword(
                               emailController.text, senhaController.text);
                           Navigator.pushAndRemoveUntil<void>(

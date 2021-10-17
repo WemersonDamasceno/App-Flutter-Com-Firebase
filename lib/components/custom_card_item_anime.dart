@@ -7,82 +7,96 @@ class CardAnime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: GestureDetector(
-        onTap: () => abrirTelaDetalhes(context, anime),
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: ClipRRect(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(150),
-                        color: Colors.black,
-                      ),
-                      child: Image.network(
-                        anime.imgUrl,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    borderRadius: BorderRadius.circular(150),
-                  ),
-                ),
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () => abrirTelaDetalhes(context, anime),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 8,
+              right: 8,
+              top: 8,
+            ),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-              Column(
+              clipBehavior: Clip.antiAlias,
+              elevation: 20,
+              color: const Color(0xFFf0f2f5),
+              child: Column(
                 children: [
                   SizedBox(
-                    height: 20,
-                    width: 200,
-                    child: Text(
-                      anime.nome,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    height: 100,
+                    width: 180,
+                    child: Image.network(anime.imgUrl, fit: BoxFit.fill),
                   ),
-                  SizedBox(
-                    width: 200,
-                    child: Row(
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Column(
                       children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.purple,
-                        ),
-                        Text(
-                          anime.nota.toString(),
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.black.withOpacity(0.6),
+                        SizedBox(
+                          height: 20,
+                          width: 200,
+                          child: Text(
+                            anime.nome.toString().length > 15
+                                ? anime.nome.toString().substring(0, 15) + "..."
+                                : anime.nome.toString(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              size: 18,
+                              color: Colors.purple,
+                            ),
+                            Text(
+                              anime.nota.toString(),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 50,
-                    width: 200,
-                    child: Text(
-                      anime.descricao.toString().length > 90
-                          ? anime.descricao.toString().substring(0, 90) + "..."
-                          : anime.descricao.toString(),
-                      style: TextStyle(color: Colors.black.withOpacity(1)),
-                    ),
-                  ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
+        Positioned(
+          top: 18,
+          left: 12,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+              color: anime.dublado ? const Color(0xFF3b5998) : Colors.red,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(4),
+              child: Text(
+                anime.dublado ? "Dublado" : "Legendado",
+                style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

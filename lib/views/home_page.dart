@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:novo_projeto/components/custom_card_item_anime.dart';
 import 'package:novo_projeto/components/custom_input_text.dart';
 import 'package:novo_projeto/components/custom_switcher.dart';
@@ -18,9 +17,35 @@ class _HomepageState extends State<Homepage> {
   List listAnimesFavoritos = [];
   List listAnimesAcompanhando = [];
   List listAnimesRecomendados = [];
+  String nomeAnime = "";
+  String descricaoAnime = "";
+  String notaAnime = "";
+  LoginService authService = LoginService();
+
+  final nomeAnimeController = TextEditingController();
+  final descricaoAnimeController = TextEditingController();
+  final notaAnimeController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+
+    nomeAnimeController.addListener(() {
+      setState(() {
+        nomeAnime = nomeAnimeController.text;
+      });
+    });
+    descricaoAnimeController.addListener(() {
+      setState(() {
+        descricaoAnime = descricaoAnimeController.text;
+      });
+    });
+
+    notaAnimeController.addListener(() {
+      setState(() {
+        notaAnime = notaAnimeController.text;
+      });
+    });
 
     getAnimesFavoritos();
     getAnimesAcompanhando();
@@ -28,8 +53,23 @@ class _HomepageState extends State<Homepage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    nomeAnimeController.dispose();
+    descricaoAnimeController.dispose();
+    notaAnimeController.dispose();
+  }
+
+  void salvarAnime() {
+    print(nomeAnime);
+    print(descricaoAnime);
+    print(notaAnime);
+    print(authService.firebaseAuth.currentUser?.uid.toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<LoginService>(context);
+    authService = Provider.of<LoginService>(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -64,11 +104,14 @@ class _HomepageState extends State<Homepage> {
                 icon: const Icon(Icons.logout_outlined)),
           ],
         ),
-        body: TabBarView(children: [
-          getListAnimes(listAnimesFavoritos),
-          getListAnimes(listAnimesAcompanhando),
-          getListAnimes(listAnimesRecomendados),
-        ]),
+        body: Container(
+          color: const Color(0xFFf0f2f5),
+          child: TabBarView(children: [
+            getListAnimes(listAnimesFavoritos),
+            getListAnimes(listAnimesAcompanhando),
+            getListAnimes(listAnimesRecomendados),
+          ]),
+        ),
         floatingActionButton: FloatingActionButton(
             onPressed: () => abrirDialogAddAnime(context),
             child: const Icon(Icons.add),
@@ -109,23 +152,44 @@ class _HomepageState extends State<Homepage> {
             alignment: Alignment.topCenter,
             children: [
               SizedBox(
-                height: 250,
+                height: 350,
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CustomInputText(
+                      CustomInputText(
                           labelText: "Nome",
-                          icon: null,
-                          txtController: null,
+                          icon: Icons.insert_comment_rounded,
+                          txtController: nomeAnimeController,
                           showPassword: false,
                           sufixIcon: null),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomInputText(
+                          labelText: "Descrição",
+                          icon: Icons.description_outlined,
+                          txtController: descricaoAnimeController,
+                          showPassword: false,
+                          sufixIcon: null),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomInputText(
+                          labelText: "Nota",
+                          icon: Icons.star,
+                          txtController: notaAnimeController,
+                          showPassword: false,
+                          sufixIcon: null),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       SizedBox(
                         width: 320.0,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: salvarAnime,
                           child: const Text(
                             "Save",
                             style: TextStyle(color: Colors.white),
@@ -158,55 +222,15 @@ class _HomepageState extends State<Homepage> {
   }
 
   getListAnimes(List listAnimes) {
-    return ListView.builder(
-      itemCount: listAnimes.length,
-      itemBuilder: (BuildContext context, int index) {
-        final item = listAnimes[index];
-        return Slidable(
-          child: Container(
-            color: Colors.white,
-            child: CardAnime(anime: item),
-          ),
-          actionPane: const SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
-          actions: [
-            IconSlideAction(
-              caption: "Favoritar",
-              icon: Icons.favorite,
-              color: Colors.red,
-              foregroundColor: Colors.white,
-              onTap: () {
-                print("Clicou!");
-              },
-            ),
-            IconSlideAction(
-              caption: "Compartilhar",
-              icon: Icons.share,
-              onTap: () {
-                print("Clicou!");
-              },
-            ),
-          ],
-          secondaryActions: [
-            IconSlideAction(
-              caption: "Editar",
-              icon: Icons.create,
-              onTap: () {
-                print("Clicou!");
-              },
-            ),
-            IconSlideAction(
-              caption: "Deletar",
-              icon: Icons.delete,
-              color: Colors.red,
-              foregroundColor: Colors.white,
-              onTap: () {
-                print("Clicou!");
-              },
-            ),
-          ],
-        );
-      },
+    return GridView.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 2,
+      children: List.generate(
+        listAnimes.length,
+        (index) {
+          return CardAnime(anime: listAnimes[index]);
+        },
+      ),
     );
   }
 
@@ -218,6 +242,7 @@ class _HomepageState extends State<Homepage> {
         "Death Note é uma série de mangá escrita por Tsugumi Ohba e ilustrada por Takeshi Obata. ",
         "https://cdn.culturagenial.com/imagens/death-note-cartaz.jpg",
         8.5,
+        true,
       ),
     );
     listAnimesFavoritos.add(
@@ -227,6 +252,7 @@ class _HomepageState extends State<Homepage> {
         "Dr. Stone é um mangá japonês escrito por Riichiro Inagaki e ilustrado por Boichi, publicado na Weekly Shōnen Jump.",
         "https://sm.ign.com/ign_br/screenshot/b/bdr-stone-/bdr-stone-2019bbrbrdr-stone-is-an-explosive-chemical-reactio_mb57.jpg",
         8.0,
+        true,
       ),
     );
     listAnimesFavoritos.add(
@@ -236,6 +262,7 @@ class _HomepageState extends State<Homepage> {
         "Saint Seiya ou Os Cavaleiros do Zodíaco é uma série japonesa de mangá e anime escrito e ilustrada por Masami Kurumada.",
         "https://uploads.jovemnerd.com.br/wp-content/uploads/2019/10/kurumada-sugere-uma-nova-serie-especial-de-cavaleiros-do-zodiaco.jpg",
         7.9,
+        true,
       ),
     );
     listAnimesFavoritos.add(
@@ -245,6 +272,7 @@ class _HomepageState extends State<Homepage> {
         "Boku no Hero Academia, também conhecido como My Hero Academia no ocidente, é uma série de mangá. ",
         "https://sm.ign.com/t/ign_br/tv/m/my-hero-ac/my-hero-academia_f9ae.1200.jpg",
         8.5,
+        false,
       ),
     );
     listAnimesFavoritos.add(
@@ -254,6 +282,7 @@ class _HomepageState extends State<Homepage> {
         "Tokyo Revengers é um mangá japonês escrito e ilustrado por Ken Wakui. É serializado na revista Weekly Shōnen. ",
         "http://manchanocel.com/wp-content/uploads/2021/06/Tokyo-Revengers-1.jpg",
         9.0,
+        false,
       ),
     );
   }
@@ -266,6 +295,7 @@ class _HomepageState extends State<Homepage> {
         "Death Note é uma série de mangá escrita por Tsugumi Ohba e ilustrada por Takeshi Obata. ",
         "https://cdn.culturagenial.com/imagens/death-note-cartaz.jpg",
         8.5,
+        false,
       ),
     );
     listAnimesAcompanhando.add(
@@ -275,6 +305,7 @@ class _HomepageState extends State<Homepage> {
         "Dr. Stone é um mangá japonês escrito por Riichiro Inagaki e ilustrado por Boichi, publicado na Weekly Shōnen Jump.",
         "https://sm.ign.com/ign_br/screenshot/b/bdr-stone-/bdr-stone-2019bbrbrdr-stone-is-an-explosive-chemical-reactio_mb57.jpg",
         8.0,
+        false,
       ),
     );
     listAnimesAcompanhando.add(
@@ -284,6 +315,7 @@ class _HomepageState extends State<Homepage> {
         "Saint Seiya ou Os Cavaleiros do Zodíaco é uma série japonesa de mangá e anime escrito e ilustrada por Masami Kurumada.",
         "https://uploads.jovemnerd.com.br/wp-content/uploads/2019/10/kurumada-sugere-uma-nova-serie-especial-de-cavaleiros-do-zodiaco.jpg",
         7.9,
+        false,
       ),
     );
     listAnimesAcompanhando.add(
@@ -293,6 +325,7 @@ class _HomepageState extends State<Homepage> {
         "Boku no Hero Academia, também conhecido como My Hero Academia no ocidente, é uma série de mangá. ",
         "https://sm.ign.com/t/ign_br/tv/m/my-hero-ac/my-hero-academia_f9ae.1200.jpg",
         8.5,
+        false,
       ),
     );
     listAnimesAcompanhando.add(
@@ -302,6 +335,7 @@ class _HomepageState extends State<Homepage> {
         "Tokyo Revengers é um mangá japonês escrito e ilustrado por Ken Wakui. É serializado na revista Weekly Shōnen. ",
         "http://manchanocel.com/wp-content/uploads/2021/06/Tokyo-Revengers-1.jpg",
         9.0,
+        false,
       ),
     );
   }
@@ -314,6 +348,7 @@ class _HomepageState extends State<Homepage> {
         "Death Note é uma série de mangá escrita por Tsugumi Ohba e ilustrada por Takeshi Obata. ",
         "https://cdn.culturagenial.com/imagens/death-note-cartaz.jpg",
         8.5,
+        false,
       ),
     );
     listAnimesRecomendados.add(
@@ -323,6 +358,7 @@ class _HomepageState extends State<Homepage> {
         "Dr. Stone é um mangá japonês escrito por Riichiro Inagaki e ilustrado por Boichi, publicado na Weekly Shōnen Jump.",
         "https://sm.ign.com/ign_br/screenshot/b/bdr-stone-/bdr-stone-2019bbrbrdr-stone-is-an-explosive-chemical-reactio_mb57.jpg",
         8.0,
+        false,
       ),
     );
     listAnimesRecomendados.add(
@@ -332,6 +368,7 @@ class _HomepageState extends State<Homepage> {
         "Saint Seiya ou Os Cavaleiros do Zodíaco é uma série japonesa de mangá e anime escrito e ilustrada por Masami Kurumada.",
         "https://uploads.jovemnerd.com.br/wp-content/uploads/2019/10/kurumada-sugere-uma-nova-serie-especial-de-cavaleiros-do-zodiaco.jpg",
         7.9,
+        false,
       ),
     );
     listAnimesRecomendados.add(
@@ -341,6 +378,7 @@ class _HomepageState extends State<Homepage> {
         "Boku no Hero Academia, também conhecido como My Hero Academia no ocidente, é uma série de mangá. ",
         "https://sm.ign.com/t/ign_br/tv/m/my-hero-ac/my-hero-academia_f9ae.1200.jpg",
         8.5,
+        false,
       ),
     );
     listAnimesRecomendados.add(
@@ -350,6 +388,7 @@ class _HomepageState extends State<Homepage> {
         "Tokyo Revengers é um mangá japonês escrito e ilustrado por Ken Wakui. É serializado na revista Weekly Shōnen. ",
         "http://manchanocel.com/wp-content/uploads/2021/06/Tokyo-Revengers-1.jpg",
         9.0,
+        false,
       ),
     );
   }
