@@ -17,54 +17,16 @@ class _HomepageState extends State<Homepage> {
   List listAnimesFavoritos = [];
   List listAnimesAcompanhando = [];
   List listAnimesRecomendados = [];
-  String nomeAnime = "";
-  String descricaoAnime = "";
-  String notaAnime = "";
-  LoginService authService = LoginService();
 
-  final nomeAnimeController = TextEditingController();
-  final descricaoAnimeController = TextEditingController();
-  final notaAnimeController = TextEditingController();
+  LoginService authService = LoginService();
 
   @override
   void initState() {
     super.initState();
 
-    nomeAnimeController.addListener(() {
-      setState(() {
-        nomeAnime = nomeAnimeController.text;
-      });
-    });
-    descricaoAnimeController.addListener(() {
-      setState(() {
-        descricaoAnime = descricaoAnimeController.text;
-      });
-    });
-
-    notaAnimeController.addListener(() {
-      setState(() {
-        notaAnime = notaAnimeController.text;
-      });
-    });
-
     getAnimesFavoritos();
     getAnimesAcompanhando();
     getAnimesRecomendados();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    nomeAnimeController.dispose();
-    descricaoAnimeController.dispose();
-    notaAnimeController.dispose();
-  }
-
-  void salvarAnime() {
-    print(nomeAnime);
-    print(descricaoAnime);
-    print(notaAnime);
-    print(authService.firebaseAuth.currentUser?.uid.toString());
   }
 
   @override
@@ -121,124 +83,10 @@ class _HomepageState extends State<Homepage> {
   }
 
   abrirDialogAddAnime(BuildContext context) {
-    Widget okButton = ElevatedButton(
-      child: const Text("Ok"),
-      onPressed: () {},
-    );
-
-    Widget cancelButton = ElevatedButton(
-      child: const Text("Cancelar"),
-      onPressed: () {},
-    );
-
-    // configura o  AlertDialog
-    Dialog alert = Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.topCenter,
-        children: [
-          SizedBox(
-            height: 340,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    keyboardType: TextInputType.name,
-                    decoration: const InputDecoration(
-                      hintText: 'Nome do anime',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      prefixIcon: Icon(Icons.insert_comment_rounded),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    minLines: 1,
-                    maxLines: 3,
-                    keyboardType: TextInputType.multiline,
-                    decoration: const InputDecoration(
-                      hintText: 'Descrição',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      prefixIcon: Icon(Icons.description),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      hintText: 'Nota',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      prefixIcon: Icon(Icons.star),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Text("Cancelar"),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(),
-                        onPressed: () {},
-                        child: const Text("Salvar"),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: -40,
-            child: ClipRRect(
-              child: Container(
-                  height: 80,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(150),
-                    color: Colors.white,
-                  ),
-                  child: const Icon(Icons.add_a_photo_rounded)),
-              borderRadius: BorderRadius.circular(150),
-            ),
-          )
-        ],
-      ),
-    );
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return DialogCustom();
       },
     );
   }
@@ -411,6 +259,211 @@ class _HomepageState extends State<Homepage> {
         "http://manchanocel.com/wp-content/uploads/2021/06/Tokyo-Revengers-1.jpg",
         9.0,
         false,
+      ),
+    );
+  }
+}
+
+class DialogCustom extends StatefulWidget {
+  const DialogCustom({Key? key}) : super(key: key);
+  @override
+  State<DialogCustom> createState() => _DialogCustomState();
+}
+
+class _DialogCustomState extends State<DialogCustom> {
+  LoginService authService = LoginService();
+  String nomeAnime = "";
+  String descricaoAnime = "";
+  String notaAnime = "";
+  int? group = 1;
+
+  final nomeAnimeController = TextEditingController();
+  final descricaoAnimeController = TextEditingController();
+  final notaAnimeController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    nomeAnimeController.addListener(() {
+      setState(() {
+        nomeAnime = nomeAnimeController.text;
+      });
+    });
+    descricaoAnimeController.addListener(() {
+      setState(() {
+        descricaoAnime = descricaoAnimeController.text;
+      });
+    });
+
+    notaAnimeController.addListener(() {
+      setState(() {
+        notaAnime = notaAnimeController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    nomeAnimeController.dispose();
+    descricaoAnimeController.dispose();
+    notaAnimeController.dispose();
+  }
+
+  void salvarAnime() {
+    print("Nome anime: $nomeAnime");
+    print("Desc: $descricaoAnime");
+    print("Nota: $notaAnime");
+    print(authService.firebaseAuth.currentUser?.uid.toString());
+    print("legendado $group");
+
+    String urlImage = "";
+    bool dublado = group == 1 ? true : false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.topCenter,
+        children: [
+          SizedBox(
+            height: 350,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.name,
+                    controller: nomeAnimeController,
+                    decoration: const InputDecoration(
+                      hintText: 'Nome do anime',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Icon(Icons.insert_comment_rounded),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    minLines: 1,
+                    maxLines: 3,
+                    controller: descricaoAnimeController,
+                    keyboardType: TextInputType.multiline,
+                    decoration: const InputDecoration(
+                      hintText: 'Descrição',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Icon(Icons.description),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: notaAnimeController,
+                    decoration: const InputDecoration(
+                      hintText: 'Nota',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Icon(Icons.star),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Radio(
+                        value: 1,
+                        groupValue: group,
+                        activeColor: Colors.red,
+                        onChanged: (T) {
+                          setState(() {
+                            print(T);
+                            group = T as int?;
+                          });
+                        },
+                      ),
+                      const Text(
+                        'Legendado',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                      Radio(
+                        value: 2,
+                        groupValue: group,
+                        activeColor: Colors.red,
+                        onChanged: (T) {
+                          setState(() {
+                            group = T as int?;
+                          });
+                        },
+                      ),
+                      const Text(
+                        'Dublado',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text("Cancelar"),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(),
+                        onPressed: salvarAnime,
+                        child: const Text("Salvar"),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: -40,
+            child: ClipRRect(
+              child: Container(
+                  height: 80,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(150),
+                    color: Colors.white,
+                  ),
+                  child: const Icon(Icons.add_a_photo_rounded)),
+              borderRadius: BorderRadius.circular(150),
+            ),
+          )
+        ],
       ),
     );
   }
