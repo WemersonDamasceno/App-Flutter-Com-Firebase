@@ -20,7 +20,7 @@ class CustomButtomRound extends StatelessWidget {
       ),
       onPressed: press,
       style: ElevatedButton.styleFrom(
-        primary: Colors.purple,
+        primary: const Color(0xFFBA2D0B),
         shape: const CircleBorder(),
       ),
     );

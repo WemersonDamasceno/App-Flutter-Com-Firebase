@@ -29,22 +29,24 @@ class VideoState extends State<SplashPage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF070707),
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             SizedBox(
               height: 200,
               width: 300,
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage("assets/images/logo.jpg"),
-              ),
+              child: Image.asset("assets/images/logo.png"),
             ),
-            CircularProgressIndicator(),
+            const SizedBox(
+              height: 30,
+            ),
+            const CircularProgressIndicator(
+              color: Color(0xFFFAFEFC),
+            ),
           ],
         ),
       ),

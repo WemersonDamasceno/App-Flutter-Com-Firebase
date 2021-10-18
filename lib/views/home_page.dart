@@ -105,7 +105,7 @@ class _HomepageState extends State<Homepage> {
           ],
         ),
         body: Container(
-          color: const Color(0xFFf0f2f5),
+          color: const Color(0xFF150e04),
           child: TabBarView(children: [
             getListAnimes(listAnimesFavoritos),
             getListAnimes(listAnimesAcompanhando),
@@ -115,108 +115,130 @@ class _HomepageState extends State<Homepage> {
         floatingActionButton: FloatingActionButton(
             onPressed: () => abrirDialogAddAnime(context),
             child: const Icon(Icons.add),
-            backgroundColor: Colors.purple),
+            backgroundColor: const Color(0xFFBA2D0B)),
       ),
     );
   }
 
   abrirDialogAddAnime(BuildContext context) {
     Widget okButton = ElevatedButton(
-      child: const Text("Cancelar"),
-      onPressed: () {},
-    );
-
-    Widget cancelButton = ElevatedButton(
       child: const Text("Ok"),
       onPressed: () {},
     );
 
-    // configura o  AlertDialog
-    AlertDialog alerta = AlertDialog(
-      title: const Text("Preencha os campos"),
-      content: const Text("Não perca a promoção."),
-      actions: [
-        okButton,
-        cancelButton,
-      ],
+    Widget cancelButton = ElevatedButton(
+      child: const Text("Cancelar"),
+      onPressed: () {},
     );
+
+    // configura o  AlertDialog
+    Dialog alert = Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.topCenter,
+        children: [
+          SizedBox(
+            height: 340,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    keyboardType: TextInputType.name,
+                    decoration: const InputDecoration(
+                      hintText: 'Nome do anime',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Icon(Icons.insert_comment_rounded),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    minLines: 1,
+                    maxLines: 3,
+                    keyboardType: TextInputType.multiline,
+                    decoration: const InputDecoration(
+                      hintText: 'Descrição',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Icon(Icons.description),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: 'Nota',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Icon(Icons.star),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text("Cancelar"),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(),
+                        onPressed: () {},
+                        child: const Text("Salvar"),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: -40,
+            child: ClipRRect(
+              child: Container(
+                  height: 80,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(150),
+                    color: Colors.white,
+                  ),
+                  child: const Icon(Icons.add_a_photo_rounded)),
+              borderRadius: BorderRadius.circular(150),
+            ),
+          )
+        ],
+      ),
+    );
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.topCenter,
-            children: [
-              SizedBox(
-                height: 350,
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomInputText(
-                          labelText: "Nome",
-                          icon: Icons.insert_comment_rounded,
-                          txtController: nomeAnimeController,
-                          showPassword: false,
-                          sufixIcon: null),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomInputText(
-                          labelText: "Descrição",
-                          icon: Icons.description_outlined,
-                          txtController: descricaoAnimeController,
-                          showPassword: false,
-                          sufixIcon: null),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomInputText(
-                          labelText: "Nota",
-                          icon: Icons.star,
-                          txtController: notaAnimeController,
-                          showPassword: false,
-                          sufixIcon: null),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: 320.0,
-                        child: ElevatedButton(
-                          onPressed: salvarAnime,
-                          child: const Text(
-                            "Save",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                top: -40,
-                child: ClipRRect(
-                  child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(150),
-                        color: Colors.white,
-                      ),
-                      child: const Icon(Icons.add_a_photo_rounded)),
-                  borderRadius: BorderRadius.circular(150),
-                ),
-              )
-            ],
-          ),
-        );
+        return alert;
       },
     );
   }

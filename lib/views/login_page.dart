@@ -41,159 +41,174 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: SizedBox(
+        child: Container(
+          color: const Color(0xFF070707),
           width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 200,
-                  width: 300,
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage("assets/images/logo.jpg"),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 200,
+                width: 300,
+                child: Image.asset("assets/images/logo.png"),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFAFEFC),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                      width: 400,
-                      child: CustomInputText(
-                        labelText: "Email",
-                        onPressIcon: () {},
-                        icon: Icons.email_outlined,
-                        txtController: emailController,
-                        showPassword: false,
-                        sufixIcon: null,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 50,
+                        width: 400,
+                        child: CustomInputText(
+                          labelText: "Email",
+                          onPressIcon: () {},
+                          icon: Icons.email_outlined,
+                          txtController: emailController,
+                          showPassword: false,
+                          sufixIcon: null,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 50,
-                      width: 400,
-                      child: CustomInputText(
-                        labelText: "Senha",
-                        icon: Icons.vpn_key_outlined,
-                        txtController: senhaController,
-                        showPassword: !showPassword,
-                        onPressIcon: () {},
-                        sufixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: IconButton(
-                              icon: showPassword
-                                  ? Icon(Icons.lock_open,
-                                      size: 30,
-                                      color: Colors.black.withOpacity(.4))
-                                  : Icon(Icons.lock_outline,
-                                      size: 30,
-                                      color: Colors.black.withOpacity(.4)),
-                              onPressed: () {
-                                setState(() {
-                                  showPassword = !showPassword;
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: 400,
+                        child: CustomInputText(
+                          labelText: "Senha",
+                          icon: Icons.vpn_key_outlined,
+                          txtController: senhaController,
+                          showPassword: !showPassword,
+                          onPressIcon: () {},
+                          sufixIcon: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: IconButton(
+                                icon: showPassword
+                                    ? Icon(Icons.lock_open,
+                                        size: 30,
+                                        color: Colors.black.withOpacity(.4))
+                                    : Icon(Icons.lock_outline,
+                                        size: 30,
+                                        color: Colors.black.withOpacity(.4)),
+                                onPressed: () {
+                                  setState(() {
+                                    showPassword = !showPassword;
+                                  });
+                                }),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        height: 50,
+                        width: 400,
+                        child: ElevatedButton(
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () async {
+                            AlertDialog alertDialog = const AlertDialog(
+                              title: Text("Aguarde um momento!"),
+                              elevation: 2.0,
+                              content: LinearProgressIndicator(),
+                            );
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return alertDialog;
                                 });
-                              }),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 50,
-                      width: 400,
-                      child: ElevatedButton(
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        onPressed: () async {
-                          AlertDialog alertDialog = const AlertDialog(
-                            title: Text("Aguarde um momento!"),
-                            elevation: 2.0,
-                            content: LinearProgressIndicator(),
-                          );
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return alertDialog;
-                              });
 
-                          //Usar o auth
-                          await authService.singInWithEmailAndPassword(
-                              emailController.text, senhaController.text);
-                          Navigator.pushAndRemoveUntil<void>(
-                            context,
-                            MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    const Homepage()),
-                            ModalRoute.withName('/home'),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.purple,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50))),
+                            //Usar o auth
+                            await authService.singInWithEmailAndPassword(
+                                emailController.text, senhaController.text);
+                            Navigator.pushAndRemoveUntil<void>(
+                              context,
+                              MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      const Homepage()),
+                              ModalRoute.withName('/home'),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                              primary: const Color(0xFFBA2D0B),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50))),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      "Ou entre com",
-                      style: TextStyle(fontSize: 17),
-                    ),
-                    const SizedBox(height: 30),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          CustomButtomRound(
-                              iconData: "assets/images/facebook.png",
-                              press: () => {
-                                    Navigator.popAndPushNamed(context, "/home")
-                                  }),
-                          CustomButtomRound(
-                              iconData: "assets/images/instagram.png",
-                              press: () => {
-                                    Navigator.popAndPushNamed(context, "/home")
-                                  }),
-                          const CustomButtomRound(
-                              iconData: "assets/images/twitter.png",
-                              press: null),
-                        ],
+                      const SizedBox(height: 20),
+                      const Text(
+                        "Ou entre com",
+                        style: TextStyle(fontSize: 17, color: Colors.black54),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 15),
-                        children: [
-                          const TextSpan(text: "É novo por aqui?"),
-                          TextSpan(
-                            text: " Clique aqui!",
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterPage())),
-                            style: const TextStyle(
-                              color: Colors.purple,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
+                      const SizedBox(height: 30),
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CustomButtomRound(
+                                iconData: "assets/images/facebook.png",
+                                press: () => {
+                                      Navigator.popAndPushNamed(
+                                          context, "/home")
+                                    }),
+                            CustomButtomRound(
+                                iconData: "assets/images/instagram.png",
+                                press: () => {
+                                      Navigator.popAndPushNamed(
+                                          context, "/home")
+                                    }),
+                            const CustomButtomRound(
+                                iconData: "assets/images/twitter.png",
+                                press: null),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 15),
+                          children: [
+                            const TextSpan(
+                                text: "É novo por aqui?",
+                                style: TextStyle(color: Colors.black54)),
+                            TextSpan(
+                              text: " Clique aqui!",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegisterPage())),
+                              style: const TextStyle(
+                                color: Color(0xFFBA2D0B),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

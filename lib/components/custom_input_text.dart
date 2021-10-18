@@ -29,6 +29,7 @@ class CustomInputText extends StatelessWidget {
         obscureText: showPassword,
         controller: txtController,
         keyboardType: type,
+        cursorColor: const Color(0xFFBA2D0B),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20.0),
           labelText: labelText,
@@ -40,7 +41,7 @@ class CustomInputText extends StatelessWidget {
           prefixIcon: IconButton(
             icon: Icon(icon),
             onPressed: onPressIcon,
-            color: Colors.purple,
+            color: const Color(0xFFBA2D0B),
           ),
           suffixIcon: sufixIcon,
         ),

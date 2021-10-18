@@ -34,7 +34,7 @@ class AppWidget extends StatelessWidget {
             ],
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primarySwatch: Colors.purple,
+              primarySwatch: Colors.red,
               brightness: AppController.instance.switchTheme
                   ? Brightness.dark
                   : Brightness.light,
