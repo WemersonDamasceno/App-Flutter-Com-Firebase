@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novo_projeto/helpers/wrapper.dart';
-import 'package:novo_projeto/services/login_service.dart';
+import 'package:novo_projeto/services/auth_firebase_service.dart';
 import 'package:novo_projeto/views/login_page.dart';
 import 'package:novo_projeto/views/register_tab.dart';
 import 'package:novo_projeto/views/splash_page.dart';
@@ -20,8 +20,8 @@ class AppWidget extends StatelessWidget {
       builder: (context, child) {
         return MultiProvider(
           providers: [
-            Provider<LoginService>(
-              create: (_) => LoginService(),
+            Provider<AuthService>(
+              create: (_) => AuthService(),
             ),
           ],
           child: MaterialApp(

@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:novo_projeto/components/custom_card_item_anime.dart';
 import 'package:novo_projeto/components/custom_input_text.dart';
 import 'package:novo_projeto/components/custom_switcher.dart';
 import 'package:novo_projeto/models/anime_model.dart';
-import 'package:novo_projeto/services/login_service.dart';
+import 'package:novo_projeto/services/auth_firebase_service.dart';
+import 'package:novo_projeto/services/storage_firebase_service.dart';
 import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
@@ -18,7 +23,7 @@ class _HomepageState extends State<Homepage> {
   List listAnimesAcompanhando = [];
   List listAnimesRecomendados = [];
 
-  LoginService authService = LoginService();
+  AuthService authService = AuthService();
 
   @override
   void initState() {
@@ -31,7 +36,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    authService = Provider.of<LoginService>(context);
+    authService = Provider.of<AuthService>(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -271,11 +276,21 @@ class DialogCustom extends StatefulWidget {
 }
 
 class _DialogCustomState extends State<DialogCustom> {
-  LoginService authService = LoginService();
+  AuthService authService = AuthService();
+  StorageService storageService = StorageService();
+
   String nomeAnime = "";
   String descricaoAnime = "";
   String notaAnime = "";
   int? group = 1;
+  String urlImage =
+      "https://firebasestorage.googleapis.com/v0/b/projeto-crud-flutter.appspot.com/o/images%2Fimg-statics%2Fadd%20(2).png?alt=media&token=d5edc878-8757-4532-8fc4-6c85acd3711c";
+
+  bool loading = true;
+  bool uploading = false;
+  double totalBytesTranferidos = 0;
+  List<Reference> refs = [];
+  List<String> arquivos = [];
 
   final nomeAnimeController = TextEditingController();
   final descricaoAnimeController = TextEditingController();
@@ -322,6 +337,77 @@ class _DialogCustomState extends State<DialogCustom> {
     bool dublado = group == 1 ? true : false;
   }
 
+  Future<XFile?> getImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+
+  Future<UploadTask> upload(String path) async {
+    File file = File(path);
+    try {
+      String nomeImage = "img-${DateTime.now().toString()}.jpg";
+      String ref = 'images/$nomeImage';
+      setState(() {
+        urlImage = ref;
+      });
+      return storageService.storage.ref(ref).putFile(file);
+    } on FirebaseException catch (e) {
+      throw Exception('Erro no upload: ${e.code}');
+    }
+  }
+
+  Future<void> downloadURLExample() async {
+    String downloadURL =
+        await storageService.storage.ref(urlImage).getDownloadURL();
+    setState(() {
+      urlImage = downloadURL;
+      print("url Image: $urlImage");
+    });
+  }
+
+  void dialogTransfer() {
+    AlertDialog dialogTranfer = AlertDialog(
+      title: Column(
+        children: const [
+          Text("Aguarde um momento!"),
+          LinearProgressIndicator(),
+        ],
+      ),
+      content: Text("${totalBytesTranferidos.round()}% enviado..."),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return dialogTranfer;
+      },
+    );
+  }
+
+  void getAndLoadImage() async {
+    XFile? file = await getImage();
+    if (file != null) {
+      UploadTask task = await upload(file.path);
+
+      task.snapshotEvents.listen((TaskSnapshot snapshot) async {
+        if (snapshot.state == TaskState.running) {
+          setState(() {
+            //dialogTransfer();
+            uploading = true;
+            totalBytesTranferidos =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          });
+        } else if (snapshot.state == TaskState.success) {
+          arquivos.add(await snapshot.ref.getDownloadURL());
+          downloadURLExample();
+          refs.add(snapshot.ref);
+          setState(() => uploading = false);
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -333,7 +419,7 @@ class _DialogCustomState extends State<DialogCustom> {
         alignment: Alignment.topCenter,
         children: [
           SizedBox(
-            height: 350,
+            height: 380,
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
@@ -451,16 +537,24 @@ class _DialogCustomState extends State<DialogCustom> {
           ),
           Positioned(
             top: -40,
-            child: ClipRRect(
-              child: Container(
-                  height: 80,
-                  width: 80,
+            child: SizedBox(
+              height: 80,
+              width: 80,
+              child: InkWell(
+                onTap: getAndLoadImage,
+                child: Container(
+                  width: 70.0,
+                  height: 70.0,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(150),
                     color: Colors.white,
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(urlImage),
+                    ),
                   ),
-                  child: const Icon(Icons.add_a_photo_rounded)),
-              borderRadius: BorderRadius.circular(150),
+                ),
+              ),
             ),
           )
         ],

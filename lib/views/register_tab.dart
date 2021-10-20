@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 import 'package:novo_projeto/components/custom_input_text.dart';
-import 'package:novo_projeto/services/login_service.dart';
+import 'package:novo_projeto/services/auth_firebase_service.dart';
 import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -32,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<LoginService>(context);
+    final authService = Provider.of<AuthService>(context);
 
     return SingleChildScrollView(
       child: SizedBox(

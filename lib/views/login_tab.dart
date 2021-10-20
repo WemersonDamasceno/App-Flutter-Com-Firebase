@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:novo_projeto/components/custom_buttom_round.dart';
 import 'package:novo_projeto/components/custom_input_text.dart';
-import 'package:novo_projeto/services/login_service.dart';
+import 'package:novo_projeto/services/auth_firebase_service.dart';
 import 'package:novo_projeto/views/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +36,7 @@ class _LoginTabState extends State<LoginTab> {
   @override
   Widget build(BuildContext context) {
     //Servico de login do firebase
-    final authService = Provider.of<LoginService>(context);
+    final authService = Provider.of<AuthService>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(

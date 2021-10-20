@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:novo_projeto/services/login_service.dart';
+import 'package:novo_projeto/services/auth_firebase_service.dart';
 import 'package:novo_projeto/views/home_page.dart';
 import 'package:novo_projeto/views/login_page.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +11,7 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<LoginService>(context);
+    final authService = Provider.of<AuthService>(context);
 
     return StreamBuilder<User?>(
         stream: authService.user,

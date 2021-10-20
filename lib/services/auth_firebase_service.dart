@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:novo_projeto/models/user_model.dart';
 
-class LoginService {
+class AuthService {
   final auth.FirebaseAuth firebaseAuth = auth.FirebaseAuth.instance;
 
   User? userFirebase(auth.User? user) {
