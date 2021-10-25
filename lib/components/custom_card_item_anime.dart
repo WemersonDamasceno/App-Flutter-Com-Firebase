@@ -29,7 +29,10 @@ class CardAnime extends StatelessWidget {
                   SizedBox(
                     height: 100,
                     width: 180,
-                    child: Image.network(anime.imgUrl, fit: BoxFit.fill),
+                    child: Image.network(
+                      anime.imgUrl,
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -96,9 +99,63 @@ class CardAnime extends StatelessWidget {
             ),
           ),
         ),
+        Positioned(
+          top: 10,
+          left: 125,
+          child: PopupMenuButton(
+            elevation: 10,
+            shape: const RoundedRectangleBorder(
+              side: BorderSide.none,
+            ),
+            icon: const Icon(
+              Icons.more_vert_rounded,
+              color: Colors.white,
+              size: 40,
+            ),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                  child: const Text("Editar"),
+                  value: 1,
+                  onTap: () {
+                    print("Editar");
+                  }),
+              PopupMenuItem(
+                  child: const Text("Excluir"),
+                  value: 2,
+                  onTap: () {
+                    print("Excluir");
+                  }),
+            ],
+          ),
+        ),
       ],
     );
   }
 
   abrirTelaDetalhes(BuildContext context, Anime anime) {}
+}
+
+class DialogExcluirCustom extends StatelessWidget {
+  final String nome;
+
+  const DialogExcluirCustom({Key? key, required this.nome}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Atenção!"),
+      elevation: 20,
+      content: Text("Deseja excluir o $nome"),
+      actions: [
+        ElevatedButton(
+          onPressed: () {},
+          child: const Text("Ok"),
+        ),
+        ElevatedButton(
+          onPressed: () {},
+          child: const Text("Cancelar"),
+        ),
+      ],
+    );
+  }
 }

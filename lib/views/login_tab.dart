@@ -1,4 +1,3 @@
-//import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:novo_projeto/components/custom_buttom_round.dart';
@@ -153,30 +152,6 @@ class _LoginTabState extends State<LoginTab> {
                         ],
                       ),
                     ),
-
-                    /*RichText(
-                          text: TextSpan(
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 15),
-                            children: [
-                              const TextSpan(
-                                  text: "É novo por aqui?",
-                                  style: TextStyle(color: Colors.black54)),
-                              TextSpan(
-                                text: " Clique aqui!",
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const RegisterPage())),
-                                style: const TextStyle(
-                                  color: Color(0xFFBA2D0B),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),*/
                   ],
                 ),
               ],
@@ -187,9 +162,3 @@ class _LoginTabState extends State<LoginTab> {
     );
   }
 }
-/*
-goRegister(BuildContext context) {
-  Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => const RegisterPage()));
-}
-*/

@@ -1,11 +1,14 @@
 class Anime {
-  int id;
+  String id;
   String nome;
   String descricao;
   String imgUrl;
-  double nota;
+  String nota;
   bool dublado;
+  bool favorito;
+  bool acompanhando;
+  bool recomendado;
 
-  Anime(
-      this.id, this.nome, this.descricao, this.imgUrl, this.nota, this.dublado);
+  Anime(this.id, this.nome, this.descricao, this.imgUrl, this.nota,
+      this.dublado, this.favorito, this.acompanhando, this.recomendado);
 }
